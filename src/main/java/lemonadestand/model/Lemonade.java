@@ -1,5 +1,7 @@
 package lemonadestand.model;
 
+import java.util.Objects;
+
 public class Lemonade {
 
 	private double lemonJuice;
@@ -53,6 +55,29 @@ public class Lemonade {
 
 	public static void main(String[] args) {
 
+	}
+	
+	
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(CUP, iceCube, lemonJuice, price, sugar, water);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Lemonade other = (Lemonade) obj;
+		return CUP == other.CUP && iceCube == other.iceCube
+				&& Double.doubleToLongBits(lemonJuice) == Double.doubleToLongBits(other.lemonJuice)
+				&& Double.doubleToLongBits(price) == Double.doubleToLongBits(other.price)
+				&& Double.doubleToLongBits(sugar) == Double.doubleToLongBits(other.sugar)
+				&& Double.doubleToLongBits(water) == Double.doubleToLongBits(other.water);
 	}
 
 	@Override

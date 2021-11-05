@@ -4,19 +4,21 @@ import java.util.Vector;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
 
 public class Order {
 
 	private Customer customer;
 
-	private List<Lemonade> lemonades;
+	private Set<Lemonade> lemonades;
 
 	private double total;
 
 	public Order(Customer customer) {
 		super();
 		this.customer = customer;
-		lemonades = new ArrayList<>();
+		lemonades = new HashSet<>();
 		total = 0.0;
 	}
 
@@ -31,7 +33,7 @@ public class Order {
 		total += lemonade.getPrice();
 	}
 	
-	public void addLemonades(List<Lemonade> lemonades) {
+	public void addLemonades(Set<Lemonade> lemonades) {
 		this.lemonades.addAll(lemonades);
 		for (Lemonade l : lemonades) {
 			total += l.getPrice();
@@ -46,7 +48,7 @@ public class Order {
 //		return lemonades.toArray(new Lemonade[lemonades.size()]);
 //	}
 	
-	public List<Lemonade> getLemonades() {
+	public Set<Lemonade> getLemonades() {
 		return lemonades;
 	}
 
