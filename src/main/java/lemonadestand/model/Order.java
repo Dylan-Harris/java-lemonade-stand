@@ -1,19 +1,22 @@
 package lemonadestand.model;
 
+import java.util.Vector;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class Order {
 
 	private Customer customer;
 
-	private Lemonade[] lemonades;
+	private List<Lemonade> lemonades;
 
 	private double total;
 
 	public Order(Customer customer) {
 		super();
 		this.customer = customer;
-		lemonades = new Lemonade[0];
+		lemonades = new ArrayList<>();
 		total = 0.0;
 	}
 
@@ -24,23 +27,26 @@ public class Order {
 //	}
 
 	public void addLemonade(Lemonade lemonade) {
-		Lemonade[] temp = Arrays.copyOf(lemonades, lemonades.length + 1);
-//		Lemonade[] temp = new Lemonade[lemonades.length + 1];
-//		for (int i = 0; i < lemonades.length; i++) {
-//			// populate temp array with old values
-//			temp[i] = lemonades[i];
-//		}
-
-		temp[temp.length - 1] = lemonade;
-		lemonades = temp;
+		lemonades.add(lemonade);
 		total += lemonade.getPrice();
+	}
+	
+	public void addLemonades(List<Lemonade> lemonades) {
+		this.lemonades.addAll(lemonades);
+		for (Lemonade l : lemonades) {
+			total += l.getPrice();
+		}
 	}
 
 	public Customer getCustomer() {
 		return customer;
 	}
 
-	public Lemonade[] getLemonades() {
+//	public Lemonade[] getLemonades() {
+//		return lemonades.toArray(new Lemonade[lemonades.size()]);
+//	}
+	
+	public List<Lemonade> getLemonades() {
 		return lemonades;
 	}
 
@@ -53,7 +59,7 @@ public class Order {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((customer == null) ? 0 : customer.hashCode());
-		result = prime * result + Arrays.hashCode(lemonades);
+		result = prime * result + lemonades.hashCode();
 		long temp;
 		temp = Double.doubleToLongBits(total);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
@@ -74,7 +80,7 @@ public class Order {
 				return false;
 		} else if (!customer.equals(other.customer))
 			return false;
-		if (!Arrays.equals(lemonades, other.lemonades))
+		if (lemonades.equals(other.getLemonades()))
 			return false;
 		if (Double.doubleToLongBits(total) != Double.doubleToLongBits(other.total))
 			return false;
@@ -83,7 +89,7 @@ public class Order {
 
 	@Override
 	public String toString() {
-		return "Order [customer=" + customer + ", lemonades=" + Arrays.toString(lemonades) + ", total=" + total + "]";
+		return "Order [customer=" + customer + ", lemonades=" + lemonades.toString() + ", total=" + total + "]";
 	}
 	
 	
