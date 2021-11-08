@@ -1,8 +1,14 @@
 package lemonadestand.model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Lemonade {
+public class Lemonade implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3959778069336905506L;
 
 	private double lemonJuice;
 

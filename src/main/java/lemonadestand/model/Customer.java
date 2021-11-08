@@ -3,6 +3,10 @@ package lemonadestand.model;
 // A customer "is-a" person
 public class Customer implements Person {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3794595415717863667L;
 	private String name;
 //	Don't need to have a name since the Person class keeps track of it
 	private String phoneNumber;

@@ -1,6 +1,8 @@
 package lemonadestand.model;
 
-public interface Person {
+import java.io.Serializable;
+
+public interface Person extends Serializable {
 //	private String name;
 	
 //	public Person(String name) {

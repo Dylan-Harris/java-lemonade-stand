@@ -1,24 +1,26 @@
 package lemonadestand.model;
 
-import java.util.Vector;
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
-import java.util.HashSet;
 
-public class Order {
+public class Order implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4546622142954731428L;
 
 	private Customer customer;
 
-	private Set<Lemonade> lemonades;
+	private List<Lemonade> lemonades;
 
 	private double total;
 
 	public Order(Customer customer) {
 		super();
 		this.customer = customer;
-		lemonades = new HashSet<>();
+		lemonades = new ArrayList<>();
 		total = 0.0;
 	}
 
@@ -32,8 +34,8 @@ public class Order {
 		lemonades.add(lemonade);
 		total += lemonade.getPrice();
 	}
-	
-	public void addLemonades(Set<Lemonade> lemonades) {
+
+	public void addLemonades(List<Lemonade> lemonades) {
 		this.lemonades.addAll(lemonades);
 		for (Lemonade l : lemonades) {
 			total += l.getPrice();
@@ -47,8 +49,8 @@ public class Order {
 //	public Lemonade[] getLemonades() {
 //		return lemonades.toArray(new Lemonade[lemonades.size()]);
 //	}
-	
-	public Set<Lemonade> getLemonades() {
+
+	public List<Lemonade> getLemonades() {
 		return lemonades;
 	}
 
@@ -93,7 +95,5 @@ public class Order {
 	public String toString() {
 		return "Order {customer=" + customer + ", lemonades=" + lemonades.toString() + ", total=" + total + "}";
 	}
-	
-	
 
 }
