@@ -55,7 +55,7 @@ public class Customer implements Person {
 			return false;
 		return true;
 	}
-	
+
 	public String getName() {
 		return name;
 	}

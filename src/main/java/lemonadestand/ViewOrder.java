@@ -5,28 +5,50 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import lemonadestand.model.Order;
 
 public class ViewOrder {
-	public static void main(String[] args) throws IOException, ClassNotFoundException {
+	public static void main(String[] args) {
+
 		Scanner scanner = new Scanner(System.in);
-		
-		File file = new File("./orders");
-		
+
 		while (true) {
+
+			File file = new File("./orders");
+
 			System.out.println("Which order number would you like to view?");
+
+			int orderNumber = 0;
+			try {
+				orderNumber = scanner.nextInt();
+			} catch (InputMismatchException e) {
+				System.out.println("Please enter a number");
+			}
+
+			try (FileInputStream fileInputStream = new FileInputStream(file + "/order" + orderNumber + ".txt");
+					ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);){
+				
+
+				Order order = (Order) objectInputStream.readObject();
+
+				System.out.println(order.getLemonades());
+				System.out.println("Total " + order.getTotal());
+
+			} catch (FileNotFoundException e) {
+				System.out.println("Order number " + orderNumber + " does not exist");
+			} catch (IOException e) {
+				System.out.println("Internal IOException");
+			} catch (ClassNotFoundException e) {
+				System.out.println("Tried to read in an in order that isn't formatted correctly");
+			} catch (ClassCastException e) {
+				System.out.println("The file read does not contain an order");
+			} 
 			
-			int orderNumber = scanner.nextInt();
-			
-			FileInputStream fileInputStream = new FileInputStream(file + "/order" + orderNumber + ".txt");
-			ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-			
-			Order order = (Order) objectInputStream.readObject();
-			
-			System.out.println(order.getLemonades());
-			System.out.println("Total " + order.getTotal());
+
 		}
+
 	}
 }
