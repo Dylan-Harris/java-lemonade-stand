@@ -8,6 +8,10 @@ import java.io.ObjectInputStream;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import lemonadestand.model.Order;
 
 public class ViewOrder {
@@ -28,25 +32,39 @@ public class ViewOrder {
 				System.out.println("Please enter a number");
 			}
 
-			try (FileInputStream fileInputStream = new FileInputStream(file + "/order" + orderNumber + ".txt");
-					ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);){
-				
+//			try (FileInputStream fileInputStream = new FileInputStream(file + "/order" + orderNumber + ".txt");
+//					ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);) {
+//
+//				Order order = (Order) objectInputStream.readObject();
+//
+//				System.out.println(order.getLemonades());
+//				System.out.println("Total " + order.getTotal());
+//
+//			} catch (FileNotFoundException e) {
+//				System.out.println("Order number " + orderNumber + " does not exist");
+//			} catch (IOException e) {
+//				System.out.println("Internal IOException");
+//			} catch (ClassNotFoundException e) {
+//				System.out.println("Tried to read in an in order that isn't formatted correctly");
+//			} catch (ClassCastException e) {
+//				System.out.println("The file read does not contain an order");
+//			}
 
-				Order order = (Order) objectInputStream.readObject();
-
+			ObjectMapper objectMapper = new ObjectMapper();
+			try {
+				Order order = objectMapper.readValue(new File(file + "/order" + orderNumber + ".json"), Order.class);
 				System.out.println(order.getLemonades());
 				System.out.println("Total " + order.getTotal());
-
-			} catch (FileNotFoundException e) {
-				System.out.println("Order number " + orderNumber + " does not exist");
+			} catch (JsonParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (JsonMappingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			} catch (IOException e) {
-				System.out.println("Internal IOException");
-			} catch (ClassNotFoundException e) {
-				System.out.println("Tried to read in an in order that isn't formatted correctly");
-			} catch (ClassCastException e) {
-				System.out.println("The file read does not contain an order");
-			} 
-			
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 		}
 

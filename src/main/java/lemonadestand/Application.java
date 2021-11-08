@@ -6,6 +6,10 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.Scanner;
 
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import lemonadestand.model.Customer;
 import lemonadestand.model.Lemonade;
 import lemonadestand.model.Order;
@@ -70,14 +74,27 @@ public class Application {
 
 		File[] files = file.listFiles();
 
-		FileOutputStream fileOutputStream;
+//		FileOutputStream fileOutputStream;
+//		try {
+//			fileOutputStream = new FileOutputStream(file + "/order" + (files.length + 1) + ".txt");
+//			ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+//		} catch (IOException e) {
+//			System.out.println("Failed to create file. Please ensure orders directory exists");
+//		}
+		ObjectMapper objectMapper = new ObjectMapper();
 		try {
-			fileOutputStream = new FileOutputStream(file + "/order" + (files.length + 1) + ".txt");
-			ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+			objectMapper.writeValue(new File(file + "/order" + (files.length + 1) + ".json"), order);
+		} catch (JsonGenerationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		} catch (IOException e) {
-			System.out.println("Failed to create file. Please ensure orders directory exists");
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-
+		
 		System.out.println("Successfully placed order");
 		System.out.println("Your order total is: " + order.getTotal());
 		System.out.println("Please be ready to pay when you pick up your order!");
