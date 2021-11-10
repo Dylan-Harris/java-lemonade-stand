@@ -10,9 +10,13 @@ import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import lemonadestand.model.Customer;
-import lemonadestand.model.Lemonade;
-import lemonadestand.model.Order;
+import lemonadestand.dao.CustomerDAO;
+import lemonadestand.dao.LemonadeDAO;
+import lemonadestand.dao.LemonadeStandDAO;
+import lemonadestand.dao.OrderDAO;
+import lemonadestand.entity.Customer;
+import lemonadestand.entity.Lemonade;
+import lemonadestand.entity.Order;
 
 public class Application {
 
@@ -49,12 +53,19 @@ public class Application {
 		} while (!validation.equals("Y"));
 
 		System.out.println("Great! Let's get to your order then...");
+		
+		CustomerDAO customerDAO = new CustomerDAO();
+		OrderDAO orderDAO = new OrderDAO();
+		LemonadeDAO lemonadeDAO = new LemonadeDAO();
+		LemonadeStandDAO lemoandeStandDAO = new LemonadeStandDAO();
 
-		Customer customer = new Customer(name, phoneNumber);
+		Customer customer = customerDAO.createCustomer(new Customer(name, phoneNumber));
 
-		Order order = new Order(customer);
-
-		System.out.println("How many lemonades would you like to order?");
+		Order order = orderDAO.createOrder(new Order(customer, lemoandeStandDAO.getLemonadeStand(1)));
+		
+		if(order != null) {
+			System.out.println("How many lemonades would you like to order?");
+		}
 
 		for (int numberOfLemonades = scanner.nextInt(),
 				currentLemonade = 1; numberOfLemonades > 0; numberOfLemonades--, currentLemonade++) {
@@ -66,40 +77,25 @@ public class Application {
 			double sugar = scanner.nextDouble();
 			System.out.println("How many ice cubes do you want in lemonade " + currentLemonade + "? (in cups)");
 			int iceCubes = scanner.nextInt();
-			order.addLemonade(new Lemonade(lemonJuice, water, sugar, iceCubes));
-		}
-
-		// Save the order somewhere.
-		File file = new File("./orders");
-
-		File[] files = file.listFiles();
-
-//		FileOutputStream fileOutputStream;
-//		try {
-//			fileOutputStream = new FileOutputStream(file + "/order" + (files.length + 1) + ".txt");
-//			ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-//		} catch (IOException e) {
-//			System.out.println("Failed to create file. Please ensure orders directory exists");
-//		}
-		ObjectMapper objectMapper = new ObjectMapper();
-		try {
-			objectMapper.writeValue(new File(file + "/order" + (files.length + 1) + ".json"), order);
-		} catch (JsonGenerationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			order.addLemonade(lemonadeDAO.createLemoande(new Lemonade(lemonJuice, water, sugar, iceCubes, order)));
+			orderDAO.updateOrder(order);
 		}
 		
+		
+	
 		System.out.println("Successfully placed order");
 		System.out.println("Your order total is: " + order.getTotal());
 		System.out.println("Please be ready to pay when you pick up your order!");
 		
 		scanner.close();
+		
+//		OrderDAO orderDAO = new OrderDAO();
+//		
+//		Order order = orderDAO.getOrder(3);
+//		
+//		System.out.println(order.getCustomer());
+//		System.out.println(order.getLemonadeStand());
+//		System.out.println(order.getTotal());
 
 	}
 

@@ -1,4 +1,4 @@
-package lemonadestand.model;
+package lemonadestand.entity;
 
 // A customer "is-a" person
 public class Customer implements Person {
@@ -7,6 +7,8 @@ public class Customer implements Person {
 	 * 
 	 */
 	private static final long serialVersionUID = -3794595415717863667L;
+
+	private Integer id;
 	private String name;
 //	Don't need to have a name since the Person class keeps track of it
 	private String phoneNumber;
@@ -16,14 +18,15 @@ public class Customer implements Person {
 		this.phoneNumber = phoneNumber;
 	}
 
-	public Customer() {
-		super();
+	public Customer(Integer id, String name, String phoneNumber) {
+		this.id = id;
+		this.name = name;
+		this.phoneNumber = phoneNumber;
 	}
 
 	public String getName() {
 		return name;
-	} 
-	
+	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
@@ -39,6 +42,14 @@ public class Customer implements Person {
 
 	public String getPhoneNumber() {
 		return phoneNumber;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	@Override

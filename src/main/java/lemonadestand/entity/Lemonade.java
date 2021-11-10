@@ -1,4 +1,4 @@
-package lemonadestand.model;
+package lemonadestand.entity;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -11,6 +11,8 @@ public class Lemonade implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -3959778069336905506L;
+	
+	private Integer id;
 
 	private double lemonJuice;
 
@@ -23,18 +25,32 @@ public class Lemonade implements Serializable {
 	private final int CUP = 1;
 
 	private double price;
+	
+	private Order order;
 
-	public Lemonade(double lemonJuice, double water, double sugar, int iceCube) {
+	public Lemonade(double lemonJuice, double water, double sugar, int iceCube, Order order) {
 		super();
 		this.lemonJuice = lemonJuice;
 		this.water = water;
 		this.sugar = sugar;
 		this.iceCube = iceCube;
+		this.order = order;
 		calculatePrice();
 	}
 
 	public Lemonade() {
 		super();
+	}
+
+	public Lemonade(Integer id, double lemonJuice, double price, int iceCube, Order order, double sugar,
+			double water) {
+		this.id = id;
+		this.lemonJuice = lemonJuice;
+		this.price = price;
+		this.iceCube = iceCube;
+		this.order = order;
+		this.sugar = sugar;
+		this.water = water;
 	}
 
 	private void calculatePrice() {
@@ -88,6 +104,23 @@ public class Lemonade implements Serializable {
 
 	public double getPrice() {
 		return price;
+	}
+	
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Order getOrder() {
+		return order;
+	}
+
+	public void setOrder(Order order) {
+		this.order = order;
 	}
 
 	public static void main(String[] args) {
